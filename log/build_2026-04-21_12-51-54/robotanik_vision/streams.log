@@ -1,0 +1,41 @@
+[0.348s] Invoking command in '/home/aziz/Desktop/ros2v2/src/robotanik_vision': PYTHONPATH=/home/aziz/Desktop/ros2v2/build/robotanik_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robotanik_vision build --build-base /home/aziz/Desktop/ros2v2/build/robotanik_vision/build install --record /home/aziz/Desktop/ros2v2/build/robotanik_vision/install.log --single-version-externally-managed install_data
+[0.475s] running egg_info
+[0.476s] creating ../../build/robotanik_vision/robotanik_vision.egg-info
+[0.476s] writing ../../build/robotanik_vision/robotanik_vision.egg-info/PKG-INFO
+[0.476s] writing dependency_links to ../../build/robotanik_vision/robotanik_vision.egg-info/dependency_links.txt
+[0.476s] writing entry points to ../../build/robotanik_vision/robotanik_vision.egg-info/entry_points.txt
+[0.476s] writing requirements to ../../build/robotanik_vision/robotanik_vision.egg-info/requires.txt
+[0.476s] writing top-level names to ../../build/robotanik_vision/robotanik_vision.egg-info/top_level.txt
+[0.476s] writing manifest file '../../build/robotanik_vision/robotanik_vision.egg-info/SOURCES.txt'
+[0.477s] reading manifest file '../../build/robotanik_vision/robotanik_vision.egg-info/SOURCES.txt'
+[0.477s] writing manifest file '../../build/robotanik_vision/robotanik_vision.egg-info/SOURCES.txt'
+[0.477s] running build
+[0.477s] running build_py
+[0.477s] creating /home/aziz/Desktop/ros2v2/build/robotanik_vision/build
+[0.477s] creating /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib
+[0.478s] creating /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision
+[0.478s] copying robotanik_vision/camera_node.py -> /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision
+[0.478s] copying robotanik_vision/ai_analyzer_node.py -> /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision
+[0.478s] copying robotanik_vision/__init__.py -> /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision
+[0.478s] running install
+[0.478s] running install_lib
+[0.478s] creating /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision
+[0.478s] copying /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision/camera_node.py -> /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision
+[0.478s] copying /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision/ai_analyzer_node.py -> /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision
+[0.478s] copying /home/aziz/Desktop/ros2v2/build/robotanik_vision/build/lib/robotanik_vision/__init__.py -> /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision
+[0.479s] byte-compiling /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision/camera_node.py to camera_node.cpython-310.pyc
+[0.479s] byte-compiling /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision/ai_analyzer_node.py to ai_analyzer_node.cpython-310.pyc
+[0.479s] byte-compiling /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision/__init__.py to __init__.cpython-310.pyc
+[0.479s] running install_data
+[0.479s] creating /home/aziz/Desktop/ros2v2/install/robotanik_vision/share/ament_index
+[0.479s] creating /home/aziz/Desktop/ros2v2/install/robotanik_vision/share/ament_index/resource_index
+[0.479s] creating /home/aziz/Desktop/ros2v2/install/robotanik_vision/share/ament_index/resource_index/packages
+[0.480s] copying resource/robotanik_vision -> /home/aziz/Desktop/ros2v2/install/robotanik_vision/share/ament_index/resource_index/packages
+[0.480s] copying package.xml -> /home/aziz/Desktop/ros2v2/install/robotanik_vision/share/robotanik_vision
+[0.480s] running install_egg_info
+[0.480s] Copying ../../build/robotanik_vision/robotanik_vision.egg-info to /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision-0.0.0-py3.10.egg-info
+[0.481s] running install_scripts
+[0.492s] Installing ai_analyzer script to /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/robotanik_vision
+[0.492s] Installing camera_node script to /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/robotanik_vision
+[0.492s] writing list of installed files to '/home/aziz/Desktop/ros2v2/build/robotanik_vision/install.log'
+[0.505s] Invoked command in '/home/aziz/Desktop/ros2v2/src/robotanik_vision' returned '0': PYTHONPATH=/home/aziz/Desktop/ros2v2/build/robotanik_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robotanik_vision build --build-base /home/aziz/Desktop/ros2v2/build/robotanik_vision/build install --record /home/aziz/Desktop/ros2v2/build/robotanik_vision/install.log --single-version-externally-managed install_data

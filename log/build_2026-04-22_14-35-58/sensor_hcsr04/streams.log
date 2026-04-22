@@ -1,0 +1,28 @@
+[0.480s] Invoking command in '/home/aziz/Desktop/ros2v2/src/sensor_hcsr04': PYTHONPATH=/home/aziz/Desktop/ros2v2/build/sensor_hcsr04/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sensor_hcsr04 build --build-base /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/build install --record /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/install.log --single-version-externally-managed install_data
+[0.666s] running egg_info
+[0.667s] writing ../../build/sensor_hcsr04/sensor_hcsr04.egg-info/PKG-INFO
+[0.667s] writing dependency_links to ../../build/sensor_hcsr04/sensor_hcsr04.egg-info/dependency_links.txt
+[0.667s] writing entry points to ../../build/sensor_hcsr04/sensor_hcsr04.egg-info/entry_points.txt
+[0.667s] writing requirements to ../../build/sensor_hcsr04/sensor_hcsr04.egg-info/requires.txt
+[0.667s] writing top-level names to ../../build/sensor_hcsr04/sensor_hcsr04.egg-info/top_level.txt
+[0.668s] reading manifest file '../../build/sensor_hcsr04/sensor_hcsr04.egg-info/SOURCES.txt'
+[0.669s] writing manifest file '../../build/sensor_hcsr04/sensor_hcsr04.egg-info/SOURCES.txt'
+[0.670s] running build
+[0.670s] running build_py
+[0.670s] copying sensor_hcsr04/serial_bridge.py -> /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/build/lib/sensor_hcsr04
+[0.670s] copying sensor_hcsr04/sensor_viewer.py -> /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/build/lib/sensor_hcsr04
+[0.670s] running install
+[0.670s] running install_lib
+[0.671s] copying /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/build/lib/sensor_hcsr04/serial_bridge.py -> /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04
+[0.671s] copying /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/build/lib/sensor_hcsr04/sensor_viewer.py -> /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04
+[0.671s] byte-compiling /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04/serial_bridge.py to serial_bridge.cpython-310.pyc
+[0.672s] byte-compiling /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04/sensor_viewer.py to sensor_viewer.cpython-310.pyc
+[0.673s] running install_data
+[0.673s] running install_egg_info
+[0.674s] removing '/home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04-0.0.0-py3.10.egg-info' (and everything under it)
+[0.674s] Copying ../../build/sensor_hcsr04/sensor_hcsr04.egg-info to /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04-0.0.0-py3.10.egg-info
+[0.675s] running install_scripts
+[0.692s] Installing sensor_viewer script to /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/sensor_hcsr04
+[0.692s] Installing serial_bridge script to /home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/sensor_hcsr04
+[0.692s] writing list of installed files to '/home/aziz/Desktop/ros2v2/build/sensor_hcsr04/install.log'
+[0.711s] Invoked command in '/home/aziz/Desktop/ros2v2/src/sensor_hcsr04' returned '0': PYTHONPATH=/home/aziz/Desktop/ros2v2/build/sensor_hcsr04/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/install/sensor_hcsr04/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/sensor_hcsr04 build --build-base /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/build install --record /home/aziz/Desktop/ros2v2/build/sensor_hcsr04/install.log --single-version-externally-managed install_data
