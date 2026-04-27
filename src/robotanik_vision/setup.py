@@ -1,3 +1,5 @@
+import os
+from glob import glob
 from setuptools import find_packages, setup
 
 package_name = 'robotanik_vision'
@@ -10,6 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        # ROS 2'nin launch dosyalarını kopyalaması için gereken kritik satır:
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -25,7 +29,7 @@ setup(
     entry_points={
         'console_scripts': [
             'camera_node = robotanik_vision.camera_node:main',
-            'ai_analyzer = robotanik_vision.ai_analyzer_node:main'
+            'ai_analyzer = robotanik_vision.ai_analyzer_node:main',
         ],
     },
 )

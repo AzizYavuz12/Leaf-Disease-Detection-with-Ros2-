@@ -1,0 +1,39 @@
+running egg_info
+creating ../build/sensor_hcsr04/sensor_hcsr04.egg-info
+writing ../build/sensor_hcsr04/sensor_hcsr04.egg-info/PKG-INFO
+writing dependency_links to ../build/sensor_hcsr04/sensor_hcsr04.egg-info/dependency_links.txt
+writing entry points to ../build/sensor_hcsr04/sensor_hcsr04.egg-info/entry_points.txt
+writing requirements to ../build/sensor_hcsr04/sensor_hcsr04.egg-info/requires.txt
+writing top-level names to ../build/sensor_hcsr04/sensor_hcsr04.egg-info/top_level.txt
+writing manifest file '../build/sensor_hcsr04/sensor_hcsr04.egg-info/SOURCES.txt'
+reading manifest file '../build/sensor_hcsr04/sensor_hcsr04.egg-info/SOURCES.txt'
+writing manifest file '../build/sensor_hcsr04/sensor_hcsr04.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build
+creating /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib
+creating /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04
+copying sensor_hcsr04/serial_bridge.py -> /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04
+copying sensor_hcsr04/sensor_viewer.py -> /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04
+copying sensor_hcsr04/__init__.py -> /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04
+running install
+running install_lib
+creating /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04
+copying /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04/serial_bridge.py -> /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04
+copying /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04/sensor_viewer.py -> /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04
+copying /home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/build/lib/sensor_hcsr04/__init__.py -> /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04
+byte-compiling /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04/serial_bridge.py to serial_bridge.cpython-310.pyc
+byte-compiling /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04/sensor_viewer.py to sensor_viewer.cpython-310.pyc
+byte-compiling /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/share/ament_index
+creating /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/share/ament_index/resource_index
+creating /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/share/ament_index/resource_index/packages
+copying resource/sensor_hcsr04 -> /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/share/ament_index/resource_index/packages
+copying package.xml -> /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/share/sensor_hcsr04
+running install_egg_info
+Copying ../build/sensor_hcsr04/sensor_hcsr04.egg-info to /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/python3.10/site-packages/sensor_hcsr04-0.0.0-py3.10.egg-info
+running install_scripts
+Installing sensor_viewer script to /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/sensor_hcsr04
+Installing serial_bridge script to /home/aziz/Desktop/ros2v2/src/install/sensor_hcsr04/lib/sensor_hcsr04
+writing list of installed files to '/home/aziz/Desktop/ros2v2/src/build/sensor_hcsr04/install.log'
