@@ -1,0 +1,4 @@
+[console_scripts]
+location_simulator = robotanik_control.location_simulator_node:main
+main_controller = robotanik_control.main_controller_node:main
+

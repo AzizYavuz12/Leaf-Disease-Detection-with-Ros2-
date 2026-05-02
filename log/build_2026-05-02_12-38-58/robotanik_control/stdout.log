@@ -1,0 +1,39 @@
+running egg_info
+creating ../../build/robotanik_control/robotanik_control.egg-info
+writing ../../build/robotanik_control/robotanik_control.egg-info/PKG-INFO
+writing dependency_links to ../../build/robotanik_control/robotanik_control.egg-info/dependency_links.txt
+writing entry points to ../../build/robotanik_control/robotanik_control.egg-info/entry_points.txt
+writing requirements to ../../build/robotanik_control/robotanik_control.egg-info/requires.txt
+writing top-level names to ../../build/robotanik_control/robotanik_control.egg-info/top_level.txt
+writing manifest file '../../build/robotanik_control/robotanik_control.egg-info/SOURCES.txt'
+reading manifest file '../../build/robotanik_control/robotanik_control.egg-info/SOURCES.txt'
+writing manifest file '../../build/robotanik_control/robotanik_control.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/aziz/Desktop/ros2v2/build/robotanik_control/build
+creating /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib
+creating /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control
+copying robotanik_control/__init__.py -> /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control
+copying robotanik_control/main_controller_node.py -> /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control
+copying robotanik_control/location_simulator_node.py -> /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control
+running install
+running install_lib
+creating /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control
+copying /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control/__init__.py -> /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control
+copying /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control/main_controller_node.py -> /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control
+copying /home/aziz/Desktop/ros2v2/build/robotanik_control/build/lib/robotanik_control/location_simulator_node.py -> /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control
+byte-compiling /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control/main_controller_node.py to main_controller_node.cpython-310.pyc
+byte-compiling /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control/location_simulator_node.py to location_simulator_node.cpython-310.pyc
+running install_data
+creating /home/aziz/Desktop/ros2v2/install/robotanik_control/share/ament_index
+creating /home/aziz/Desktop/ros2v2/install/robotanik_control/share/ament_index/resource_index
+creating /home/aziz/Desktop/ros2v2/install/robotanik_control/share/ament_index/resource_index/packages
+copying resource/robotanik_control -> /home/aziz/Desktop/ros2v2/install/robotanik_control/share/ament_index/resource_index/packages
+copying package.xml -> /home/aziz/Desktop/ros2v2/install/robotanik_control/share/robotanik_control
+running install_egg_info
+Copying ../../build/robotanik_control/robotanik_control.egg-info to /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/python3.10/site-packages/robotanik_control-0.0.0-py3.10.egg-info
+running install_scripts
+Installing location_simulator script to /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/robotanik_control
+Installing main_controller script to /home/aziz/Desktop/ros2v2/install/robotanik_control/lib/robotanik_control
+writing list of installed files to '/home/aziz/Desktop/ros2v2/build/robotanik_control/install.log'

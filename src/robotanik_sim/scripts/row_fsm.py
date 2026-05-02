@@ -1,4 +1,3 @@
-cat > ~/Desktop/ros2v2/src/robotanik_sim/scripts/row_fsm.py <<'EOF'
 #!/usr/bin/env python3
 
 import math
@@ -12,19 +11,20 @@ from rclpy.action import ActionClient
 from geometry_msgs.msg import PoseStamped, Twist
 from sensor_msgs.msg import Range
 from nav2_msgs.action import NavigateToPose
+from tf2_ros import Buffer, TransformListener
 
 
 class MissionState(Enum):
-    STARTUP_WAIT = 0
-    SEND_GOAL = 1
+    STARTUP_WAIT    = 0
+    SEND_GOAL       = 1
     WAIT_GOAL_RESPONSE = 2
-    WAIT_RESULT = 3
-    CANCEL_GOAL = 4
-    WAIT_CANCEL = 5
-    BACKUP = 6
-    RETRY = 7
-    NEXT_WAYPOINT = 8
-    DONE = 9
+    WAIT_RESULT     = 3
+    WAIT_CANCEL     = 4
+    BACKUP          = 5
+    NEXT_WAYPOINT   = 6
+    DONE            = 7
+    EVACUATE        = 8
+    ROW_FOLLOWING   = 9
 
 
 def yaw_to_quaternion(yaw: float):
@@ -36,322 +36,349 @@ def yaw_to_quaternion(yaw: float):
 class RobotanikRowFSM(Node):
     def __init__(self):
         super().__init__("robotanik_row_fsm")
+        self.get_logger().info("### ROBOTANIK FSM V7 BAŞLADI ###")
 
         self.nav_client = ActionClient(self, NavigateToPose, "navigate_to_pose")
-        self.cmd_pub = self.create_publisher(Twist, "/cmd_vel", 10)
+        self.cmd_pub    = self.create_publisher(Twist, "/cmd_vel", 10)
+
+        self.tf_buffer   = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+        self.current_x   = 0.0
+        self.current_y   = 0.0
 
         self.front_center = None
-        self.front_left = None
-        self.front_right = None
-        self.back = None
+        self.front_left   = None
+        self.front_right  = None
+        self.back         = None
 
         self.create_subscription(Range, "/sonar/front_center", self.front_center_cb, 10)
-        self.create_subscription(Range, "/sonar/front_left", self.front_left_cb, 10)
-        self.create_subscription(Range, "/sonar/front_right", self.front_right_cb, 10)
-        self.create_subscription(Range, "/sonar/back", self.back_cb, 10)
+        self.create_subscription(Range, "/sonar/front_left",   self.front_left_cb,   10)
+        self.create_subscription(Range, "/sonar/front_right",  self.front_right_cb,  10)
+        self.create_subscription(Range, "/sonar/back",         self.back_cb,         10)
 
-        # Sağ dış koridordan başlıyoruz. Launch spawn:
-        # x=10.45, y=1.0, yaw=+1.5708 olmalı.
-        self.corridor_centers = [10.45, 8.50, 6.50, 4.50, 2.50, 0.55]
+        self.corridor_centers  = [10.45, 8.50, 6.50, 4.50, 2.50, 0.55]
+        self.y_approach_bottom = -1.0
+        self.y_approach_top    = 50.0
+        self.y_bottom_turn     = 1.20
+        self.y_top_turn        = 48.80
 
-        self.y_scan_min = 2.70
-        self.y_scan_max = 47.30
-        self.y_bottom_turn = 1.20
-        self.y_top_turn = 48.80
-
-        self.waypoints = self.generate_serpentine_waypoints()
-
+        # Waypoint listesi — dinamik olarak büyüyebilir
+        self.waypoints  = self.generate_serpentine_waypoints()
         self.current_wp = 0
-        self.state = MissionState.STARTUP_WAIT
+        self.state      = MissionState.STARTUP_WAIT
 
-        self.goal_handle = None
+        self.goal_handle      = None
         self.send_goal_future = None
-        self.result_future = None
-        self.cancel_future = None
+        self.result_future    = None
+        self.cancel_future    = None
 
-        self.startup_time = time.time()
+        self.startup_time  = time.time()
         self.startup_delay = 6.0
 
-        self.obstacle_counter = 0
-        self.obstacle_confirm_count = 5
+        self.obstacle_counter       = 0
+        self.obstacle_confirm_count = 3
+        self.front_obstacle_threshold = 0.65
+        self.back_obstacle_threshold  = 0.30
 
-        self.front_obstacle_threshold = 0.45
-        self.back_obstacle_threshold = 0.30
+        self.backup_start_time   = None
+        self.backup_duration     = 2.5
+        self.backup_speed        = -0.10
+        self.evacuate_speed      = -0.20
+        self.evacuate_start_time = 0.0
 
-        self.retry_count = 0
-        self.max_retry_per_waypoint = 1
-
-        self.backup_start_time = None
-        self.backup_duration = 2.0
-        self.backup_speed = -0.08
+        # Engelli koridorları takip et
+        self.skipped_corridors = []
 
         self.timer = self.create_timer(0.1, self.loop)
-
-        self.get_logger().info("Robotanik Row FSM başlatıldı.")
-        self.get_logger().info("FSM çalışırken RViz'den manuel goal verme.")
-        self.get_logger().info(f"Toplam waypoint sayısı: {len(self.waypoints)}")
-
-        for i, wp in enumerate(self.waypoints):
-            x, y, yaw = wp
-            self.get_logger().info(
-                f"WP {i + 1:02d}: x={x:.2f}, y={y:.2f}, yaw={yaw:.2f}"
-            )
-
-        self.get_logger().info("Nav2 navigate_to_pose action server bekleniyor...")
         self.nav_client.wait_for_server()
-        self.get_logger().info("Nav2 action server bulundu. Başlangıç gecikmesi bekleniyor.")
 
+    # ── Waypoint Üretici ─────────────────────────────────────────
     def generate_serpentine_waypoints(self):
         waypoints = []
-
         for i, x in enumerate(self.corridor_centers):
             going_up = (i % 2 == 0)
-
             if going_up:
-                waypoints.append((x, self.y_bottom_turn, 1.5708))
-                waypoints.append((x, self.y_scan_min, 1.5708))
-                waypoints.append((x, self.y_scan_max, 1.5708))
-                waypoints.append((x, self.y_top_turn, 0.0))
-
+                waypoints.append((x, self.y_approach_bottom,  1.5708, "NAV2"))
+                waypoints.append((x, self.y_bottom_turn,      1.5708, "NAV2"))
+                waypoints.append((x, self.y_top_turn,         1.5708, "ROW_FOLLOW"))
+                waypoints.append((x, self.y_approach_top,     1.5708, "NAV2"))
                 if i < len(self.corridor_centers) - 1:
-                    next_x = self.corridor_centers[i + 1]
-                    waypoints.append((next_x, self.y_top_turn, 0.0))
-                    waypoints.append((next_x, self.y_top_turn, -1.5708))
-                    waypoints.append((next_x, self.y_scan_max, -1.5708))
-
+                    nx = self.corridor_centers[i + 1]
+                    waypoints.append((nx, self.y_approach_top, -1.5708, "NAV2"))
             else:
-                waypoints.append((x, self.y_top_turn, -1.5708))
-                waypoints.append((x, self.y_scan_max, -1.5708))
-                waypoints.append((x, self.y_scan_min, -1.5708))
-                waypoints.append((x, self.y_bottom_turn, 0.0))
-
+                waypoints.append((x, self.y_approach_top,    -1.5708, "NAV2"))
+                waypoints.append((x, self.y_top_turn,        -1.5708, "NAV2"))
+                waypoints.append((x, self.y_bottom_turn,     -1.5708, "ROW_FOLLOW"))
+                waypoints.append((x, self.y_approach_bottom, -1.5708, "NAV2"))
                 if i < len(self.corridor_centers) - 1:
-                    next_x = self.corridor_centers[i + 1]
-                    waypoints.append((next_x, self.y_bottom_turn, 0.0))
-                    waypoints.append((next_x, self.y_bottom_turn, 1.5708))
-                    waypoints.append((next_x, self.y_scan_min, 1.5708))
-
+                    nx = self.corridor_centers[i + 1]
+                    waypoints.append((nx, self.y_approach_bottom, 1.5708, "NAV2"))
         return waypoints
 
-    def front_center_cb(self, msg: Range):
-        self.front_center = msg.range
+    # ── Sonar Callback'ler ───────────────────────────────────────
+    def front_center_cb(self, msg): self.front_center = msg.range
+    def front_left_cb(self,   msg): self.front_left   = msg.range
+    def front_right_cb(self,  msg): self.front_right  = msg.range
+    def back_cb(self,         msg): self.back         = msg.range
 
-    def front_left_cb(self, msg: Range):
-        self.front_left = msg.range
-
-    def front_right_cb(self, msg: Range):
-        self.front_right = msg.range
-
-    def back_cb(self, msg: Range):
-        self.back = msg.range
-
-    def front_obstacle_seen(self) -> bool:
-        values = []
-
-        for value in [self.front_center, self.front_left, self.front_right]:
-            if value is not None and not math.isnan(value):
-                values.append(value)
-
-        if not values:
+    # ── Yardımcılar ──────────────────────────────────────────────
+    def front_obstacle_seen(self):
+        if self.state == MissionState.ROW_FOLLOWING:
+            if self.front_center is not None and not math.isnan(self.front_center):
+                return self.front_center < self.front_obstacle_threshold
             return False
+        vals = [v for v in [self.front_center, self.front_left, self.front_right]
+                if v is not None and not math.isnan(v)]
+        return min(vals) < self.front_obstacle_threshold if vals else False
 
-        return min(values) < self.front_obstacle_threshold
-
-    def back_is_safe(self) -> bool:
+    def back_is_safe(self):
         if self.back is None or math.isnan(self.back):
             return True
-
         return self.back > self.back_obstacle_threshold
+
+    def publish_stop(self):
+        self.cmd_pub.publish(Twist())
+
+    def publish_cmd_vel(self, speed, angular=0.0):
+        msg = Twist()
+        msg.linear.x  = speed
+        msg.angular.z = angular
+        self.cmd_pub.publish(msg)
+
+    # ── Engel Mantığı ────────────────────────────────────────────
+    def skip_to_next_corridor(self):
+        """Mevcut koridoru engelli olarak işaretle, sonraki koridora atla."""
+        current_x = self.waypoints[self.current_wp][0]
+
+        if current_x not in self.skipped_corridors:
+            self.skipped_corridors.append(current_x)
+            self.get_logger().warn(
+                f"KORİDOR {current_x:.2f} ENGELLİ → atlandı. "
+                f"Toplam atlanan: {len(self.skipped_corridors)}"
+            )
+
+        # Mevcut koridorun tüm waypoint'lerini geç
+        for i in range(self.current_wp + 1, len(self.waypoints)):
+            nx, ny, nyaw, ntype = self.waypoints[i]
+            if abs(nx - current_x) > 0.5 and ntype == "NAV2":
+                self.current_wp = i
+                self.state = MissionState.SEND_GOAL
+                self.get_logger().warn(f"YENİ HEDEF KORİDOR: X={nx:.2f}, Y={ny:.2f}")
+                return
+
+        # Başka ana koridor kalmadı — atlanmışları ekle
+        if self.skipped_corridors:
+            self.get_logger().warn(
+                f"Ana koridorlar bitti. "
+                f"{len(self.skipped_corridors)} atlanan koridor taranıyor."
+            )
+            self._append_skipped_corridor()
+        else:
+            self.get_logger().info("Tüm koridorlar tamamlandı.")
+            self.state = MissionState.DONE
+
+    def _append_skipped_corridor(self):
+        """Atlanan ilk koridoru waypoint listesinin sonuna ekle."""
+        skipped_x = self.skipped_corridors.pop(0)
+
+        # Bu koridorun orijinal serpentine indeksini bul
+        for i, x in enumerate(self.corridor_centers):
+            if abs(x - skipped_x) < 0.1:
+                going_up = (i % 2 == 0)
+                if going_up:
+                    new_wps = [
+                        (x, self.y_approach_bottom, 1.5708,  "NAV2"),
+                        (x, self.y_bottom_turn,     1.5708,  "NAV2"),
+                        (x, self.y_top_turn,        1.5708,  "ROW_FOLLOW"),
+                        (x, self.y_approach_top,    1.5708,  "NAV2"),
+                    ]
+                else:
+                    new_wps = [
+                        (x, self.y_approach_top,    -1.5708, "NAV2"),
+                        (x, self.y_top_turn,        -1.5708, "NAV2"),
+                        (x, self.y_bottom_turn,     -1.5708, "ROW_FOLLOW"),
+                        (x, self.y_approach_bottom, -1.5708, "NAV2"),
+                    ]
+
+                # Mevcut pozisyonun hemen arkasına ekle
+                ins = self.current_wp + 1
+                for wp in reversed(new_wps):
+                    self.waypoints.insert(ins, wp)
+
+                self.get_logger().warn(
+                    f"Atlanan koridor X={skipped_x:.2f} listeye eklendi. "
+                    f"Kalan atlanan: {len(self.skipped_corridors)}"
+                )
+                self.state = MissionState.NEXT_WAYPOINT
+                return
+
+        # Bulunamazsa (olmamalı) bitir
+        self.state = MissionState.DONE
+
+    # ── Nav2 Hedef Gönder ────────────────────────────────────────
+    def send_nav2_goal(self, x, y, yaw):
+        goal = NavigateToPose.Goal()
+        goal.pose = PoseStamped()
+        goal.pose.header.frame_id = "map"
+        goal.pose.header.stamp    = self.get_clock().now().to_msg()
+        goal.pose.pose.position.x = float(x)
+        goal.pose.pose.position.y = float(y)
+        qz, qw = yaw_to_quaternion(yaw)
+        goal.pose.pose.orientation.z = qz
+        goal.pose.pose.orientation.w = qw
+        self.send_goal_future = self.nav_client.send_goal_async(goal)
+        self.state = MissionState.WAIT_GOAL_RESPONSE
 
     def send_current_goal(self):
         if self.current_wp >= len(self.waypoints):
             self.state = MissionState.DONE
             return
 
-        x, y, yaw = self.waypoints[self.current_wp]
+        x, y, yaw, wp_type = self.waypoints[self.current_wp]
 
-        goal = NavigateToPose.Goal()
-        goal.pose = PoseStamped()
-        goal.pose.header.frame_id = "map"
-        goal.pose.header.stamp = self.get_clock().now().to_msg()
+        if wp_type == "ROW_FOLLOW":
+            if self.goal_handle is not None:
+                self.goal_handle.cancel_goal_async()
+                self.goal_handle = None
+            self.state = MissionState.ROW_FOLLOWING
+            self.get_logger().info("NAV2 UYKUDA — HİBRİT PİLOT DEVREDE")
+            return
 
-        goal.pose.pose.position.x = float(x)
-        goal.pose.pose.position.y = float(y)
-        goal.pose.pose.position.z = 0.0
-
-        qz, qw = yaw_to_quaternion(yaw)
-        goal.pose.pose.orientation.z = qz
-        goal.pose.pose.orientation.w = qw
-
-        self.get_logger().info(
-            f"Waypoint {self.current_wp + 1}/{len(self.waypoints)} gönderiliyor: "
-            f"x={x:.2f}, y={y:.2f}, yaw={yaw:.2f}"
-        )
-
-        self.goal_handle = None
-        self.send_goal_future = self.nav_client.send_goal_async(goal)
-        self.state = MissionState.WAIT_GOAL_RESPONSE
+        self.send_nav2_goal(x, y, yaw)
 
     def handle_goal_response(self):
-        if self.send_goal_future is None or not self.send_goal_future.done():
-            return
-
-        try:
+        if self.send_goal_future.done():
             self.goal_handle = self.send_goal_future.result()
-        except Exception as exc:
-            self.get_logger().error(f"Goal gönderme hatası: {exc}")
-            self.state = MissionState.RETRY
-            return
+            if not self.goal_handle.accepted:
+                self.get_logger().warn("Hedef reddedildi → sonraki waypoint")
+                self.state = MissionState.NEXT_WAYPOINT
+                return
+            self.result_future = self.goal_handle.get_result_async()
+            self.state = MissionState.WAIT_RESULT
 
-        if not self.goal_handle.accepted:
-            self.get_logger().warn("Goal reddedildi. Sonraki waypoint'e geçiliyor.")
-            self.state = MissionState.NEXT_WAYPOINT
-            return
-
-        self.get_logger().info("Goal kabul edildi.")
-        self.result_future = self.goal_handle.get_result_async()
-        self.state = MissionState.WAIT_RESULT
-
-    def request_cancel_goal(self):
-        if self.goal_handle is None:
-            self.get_logger().warn("İptal edilecek aktif goal yok. Backup'a geçiliyor.")
-            self.state = MissionState.BACKUP
-            self.backup_start_time = time.time()
-            return
-
-        self.get_logger().warn("Mevcut Nav2 goal iptal ediliyor.")
-        self.cancel_future = self.goal_handle.cancel_goal_async()
-        self.state = MissionState.WAIT_CANCEL
-
-    def publish_stop(self):
-        self.cmd_pub.publish(Twist())
-
-    def publish_backup(self):
-        msg = Twist()
-        msg.linear.x = self.backup_speed
-        msg.angular.z = 0.0
-        self.cmd_pub.publish(msg)
-
+    # ── Ana Döngü ────────────────────────────────────────────────
     def loop(self):
+        try:
+            t = self.tf_buffer.lookup_transform('map', 'base_link', rclpy.time.Time())
+            self.current_x = t.transform.translation.x
+            self.current_y = t.transform.translation.y
+        except:
+            pass
+
         if self.state == MissionState.STARTUP_WAIT:
             if time.time() - self.startup_time >= self.startup_delay:
-                self.get_logger().info("Başlangıç gecikmesi tamamlandı. İlk waypoint gönderiliyor.")
                 self.state = MissionState.SEND_GOAL
-            return
 
-        if self.state == MissionState.SEND_GOAL:
+        elif self.state == MissionState.SEND_GOAL:
             self.send_current_goal()
-            return
 
-        if self.state == MissionState.WAIT_GOAL_RESPONSE:
+        elif self.state == MissionState.WAIT_GOAL_RESPONSE:
             self.handle_goal_response()
-            return
 
-        if self.state == MissionState.WAIT_RESULT:
+        elif self.state == MissionState.WAIT_RESULT:
             if self.front_obstacle_seen():
                 self.obstacle_counter += 1
+                if self.obstacle_counter >= self.obstacle_confirm_count:
+                    self.get_logger().error("AÇIK ALANDA ENGEL → KORİDOR ATLANIYOR")
+                    self.publish_stop()
+                    self.obstacle_counter = 0
+                    if self.goal_handle:
+                        self.cancel_future = self.goal_handle.cancel_goal_async()
+                        self.goal_handle   = None
+                        self.state = MissionState.WAIT_CANCEL
+                    else:
+                        self.backup_start_time = time.time()
+                        self.state = MissionState.BACKUP
             else:
                 self.obstacle_counter = 0
 
-            if self.obstacle_counter >= self.obstacle_confirm_count:
-                self.get_logger().warn("Ön engel doğrulandı. Goal iptal edilecek.")
-                self.obstacle_counter = 0
-                self.publish_stop()
-                self.state = MissionState.CANCEL_GOAL
-                return
-
-            if self.result_future is not None and self.result_future.done():
-                try:
-                    result = self.result_future.result()
-                    self.get_logger().info(f"Waypoint sonucu status={result.status}")
-                except Exception as exc:
-                    self.get_logger().warn(f"Result okunamadı: {exc}")
-
-                self.retry_count = 0
+            if self.result_future and self.result_future.done():
                 self.state = MissionState.NEXT_WAYPOINT
-                return
 
-            return
+        elif self.state == MissionState.ROW_FOLLOWING:
+            if self.front_obstacle_seen():
+                self.obstacle_counter += 1
+                if self.obstacle_counter >= self.obstacle_confirm_count:
+                    self.get_logger().error("KORİDOR TIKALI → TAHLİYE")
+                    self.obstacle_counter = 0
+                    self.publish_stop()
+                    self.evacuate_start_time = time.time()
+                    self.state = MissionState.EVACUATE
+                    return
+            else:
+                self.obstacle_counter = 0
 
-        if self.state == MissionState.CANCEL_GOAL:
-            self.request_cancel_goal()
-            return
+            # PID merkezleme
+            Kp    = 1.2
+            l_val = min(self.front_left  if self.front_left  and not math.isnan(self.front_left)  else 1.0, 1.0)
+            r_val = min(self.front_right if self.front_right and not math.isnan(self.front_right) else 1.0, 1.0)
+            error     = (l_val - r_val) / max(l_val + r_val, 0.1)
+            angular_z = max(-0.5, min(0.5, Kp * error))
+            self.publish_cmd_vel(0.18, angular_z)
 
-        if self.state == MissionState.WAIT_CANCEL:
-            if self.cancel_future is not None and self.cancel_future.done():
-                self.get_logger().info("Goal iptal sonucu alındı. Backup başlayacak.")
+            # Çıkış kontrolü
+            _, target_y, yaw, _ = self.waypoints[self.current_wp]
+            going_up = (yaw > 0)
+            if (going_up     and self.current_y >= target_y - 0.3) or \
+               (not going_up and self.current_y <= target_y + 0.3):
                 self.publish_stop()
+                self.get_logger().info("KORİDOR BİTTİ → NAV2 UYANDIRILIYOR")
+                self.state = MissionState.NEXT_WAYPOINT
+
+        elif self.state == MissionState.WAIT_CANCEL:
+            if self.cancel_future and self.cancel_future.done():
                 self.backup_start_time = time.time()
                 self.state = MissionState.BACKUP
-            return
 
-        if self.state == MissionState.BACKUP:
+        elif self.state == MissionState.BACKUP:
             if not self.back_is_safe():
-                self.get_logger().warn("Arka güvenli değil. Backup durduruldu.")
                 self.publish_stop()
-                self.state = MissionState.RETRY
+                self.get_logger().warn("Geri yol kapalı → koridoru atla")
+                self.skip_to_next_corridor()
+                return
+            if time.time() - self.backup_start_time < self.backup_duration:
+                self.publish_cmd_vel(self.backup_speed)
+            else:
+                self.publish_stop()
+                self.skip_to_next_corridor()
+
+        elif self.state == MissionState.EVACUATE:
+            if not self.back_is_safe():
+                if time.time() - self.evacuate_start_time > 10.0:
+                    self.get_logger().error("Arkadan sıkıştık → zorla atla")
+                    self.skip_to_next_corridor()
+                    return
+                self.publish_stop()
                 return
 
-            elapsed = time.time() - self.backup_start_time
+            self.publish_cmd_vel(self.evacuate_speed)
 
-            if elapsed < self.backup_duration:
-                self.publish_backup()
-            else:
+            _, _, yaw, _ = self.waypoints[self.current_wp]
+            if (yaw > 0  and self.current_y < self.y_approach_bottom + 0.5) or \
+               (yaw < 0  and self.current_y > self.y_approach_top    - 0.5):
                 self.publish_stop()
-                self.state = MissionState.RETRY
+                self.get_logger().info("Koridordan çıkıldı → sonraki koridora")
+                self.skip_to_next_corridor()
 
-            return
-
-        if self.state == MissionState.RETRY:
-            self.retry_count += 1
-
-            if self.retry_count <= self.max_retry_per_waypoint:
-                self.get_logger().info(
-                    f"Aynı waypoint tekrar deneniyor. Retry {self.retry_count}/{self.max_retry_per_waypoint}"
-                )
-                self.state = MissionState.SEND_GOAL
-            else:
-                self.get_logger().warn("Waypoint engelli kabul edildi. Sonraki waypoint'e geçiliyor.")
-                self.retry_count = 0
-                self.state = MissionState.NEXT_WAYPOINT
-
-            return
-
-        if self.state == MissionState.NEXT_WAYPOINT:
+        elif self.state == MissionState.NEXT_WAYPOINT:
             self.current_wp += 1
+            self.state = MissionState.SEND_GOAL if self.current_wp < len(self.waypoints) \
+                         else MissionState.DONE
 
-            if self.current_wp >= len(self.waypoints):
-                self.state = MissionState.DONE
-            else:
-                self.state = MissionState.SEND_GOAL
-
-            return
-
-        if self.state == MissionState.DONE:
+        elif self.state == MissionState.DONE:
             self.publish_stop()
-            self.get_logger().info("Görev tamamlandı.")
-            self.state = MissionState.STARTUP_WAIT
-            self.startup_delay = 999999.0
-            self.startup_time = time.time()
-            return
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = RobotanikRowFSM()
-
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
-
-    node.publish_stop()
     node.destroy_node()
     rclpy.shutdown()
 
 
 if __name__ == "__main__":
     main()
-EOF
-
-chmod +x ~/Desktop/ros2v2/src/robotanik_sim/scripts/row_fsm.py

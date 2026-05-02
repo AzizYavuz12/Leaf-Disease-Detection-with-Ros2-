@@ -35,15 +35,16 @@ Below is the visualization of the robot navigating through the simulated agricul
 * **Data Logging (Heat Map Prep):** Automated CSV logging of disease type, timestamps, and coordinates.
 
 ## 🛠️ Installation & Usage
-Clone the repository into your ROS 2 workspace and build all three packages:
+Clone the repository into your ROS 2 workspace and build the packages:
+```bash
+cd ~/ros2_ws/src
+git clone [https://github.com/AzizYavuz12/Leaf-Disease-Detection-with-Ros2-.git](https://github.com/AzizYavuz12/Leaf-Disease-Detection-with-Ros2-.git)
+cd ~/ros2_ws
+colcon build --packages-select robotanik_vision robotanik_control robotanik_sim sensor_hcsr04
+source install/setup.bash
 
-    cd ~/ros2_ws/src
-    git clone https://github.com/UmutUsenmez/robotanik-ros2-autonomous.git
-    cd ~/ros2_ws
-    colcon build --packages-select robotanik_vision robotanik_control robotanik_sim
-    source install/setup.bash
-
-## 👨‍💻 Author
-**Feyzullah Umut Üşenmez**
-Mechatronics Engineering Student @ YTU
-Focus Areas: Autonomous Systems, Computer Vision, Embedded AI
+👨‍💻 Author
+Aziz Yavuz
+Mechatronics Engineering Student @ Yıldız Technical University (YTU)
+Focus Areas: Autonomous Robotics, Embedded Systems (STM32/PIC), AI-Driven Control Systems.
+Project Role: Developer for ROS 2 Navigation, Sensor Fusion & Control Logic.

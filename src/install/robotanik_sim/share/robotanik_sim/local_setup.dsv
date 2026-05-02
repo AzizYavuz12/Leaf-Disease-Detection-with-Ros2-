@@ -1,2 +1,1 @@
-source;share/robotanik_sim/environment/ament_prefix_path.sh
-source;share/robotanik_sim/environment/path.sh
+/home/aziz/Desktop/ros2v2/src/build/robotanik_sim/ament_cmake_environment_hooks/local_setup.dsv
