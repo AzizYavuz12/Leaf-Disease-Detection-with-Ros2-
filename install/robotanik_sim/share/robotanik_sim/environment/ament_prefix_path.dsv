@@ -1,1 +1,1 @@
-/home/aziz/Desktop/ros2v2/build/robotanik_sim/ament_cmake_environment_hooks/ament_prefix_path.dsv
+prepend-non-duplicate;AMENT_PREFIX_PATH;
