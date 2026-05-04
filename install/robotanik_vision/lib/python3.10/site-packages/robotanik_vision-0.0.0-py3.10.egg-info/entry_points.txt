@@ -1,0 +1,4 @@
+[console_scripts]
+ai_analyzer = robotanik_vision.ai_analyzer_node:main
+camera_node = robotanik_vision.camera_node:main
+

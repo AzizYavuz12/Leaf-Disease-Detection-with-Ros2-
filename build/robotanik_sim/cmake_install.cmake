@@ -54,7 +54,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/robotanik_sim" TYPE PROGRAM FILES "/home/aziz/Desktop/ros2v2/src/robotanik_sim/scripts/row_fsm.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/robotanik_sim" TYPE PROGRAM FILES
+    "/home/aziz/Desktop/ros2v2/src/robotanik_sim/scripts/row_fsm.py"
+    "/home/aziz/Desktop/ros2v2/src/robotanik_sim/scripts/real_location_publisher.py"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

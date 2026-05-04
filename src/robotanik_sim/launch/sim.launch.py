@@ -66,8 +66,7 @@ def generate_launch_description():
     )
 
     # =====================================================================
-    # ŞEFİN MÜDAHALESİ: static_tf_node BURADAN TAMAMEN SİLİNDİ!
-    # Neden? Çünkü Nav2 (AMCL) zaten map->odom yayınlıyor. Çakışmayı bitirdik.
+
     # =====================================================================
     static_tf_node = Node(
         package='tf2_ros',
@@ -114,6 +113,17 @@ def generate_launch_description():
             parameters=[{'use_sim_time': True}]
         )]
     )
+    # 7. SİMÜLASYON KONUM YAYINCISI 
+    location_pub_node = TimerAction(
+        period=15.0,
+        actions=[Node(
+            package='robotanik_sim',
+            executable='real_location_publisher.py', # .py EKLENDİ!
+            name='real_location_publisher',
+            output='screen',
+            parameters=[{'use_sim_time': True}]
+        )]
+    )	
 
     return LaunchDescription([
         rsp_node,

@@ -1,0 +1,4 @@
+[console_scripts]
+sensor_viewer = sensor_hcsr04.sensor_viewer:main
+serial_bridge = sensor_hcsr04.serial_bridge:main
+
