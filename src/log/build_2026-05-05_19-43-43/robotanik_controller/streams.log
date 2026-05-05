@@ -1,0 +1,39 @@
+[0.331s] Invoking command in '/home/aziz/Desktop/ros2v2/src/robotanik_controller': PYTHONPATH=/home/aziz/Desktop/ros2v2/src/build/robotanik_controller/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robotanik_controller build --build-base /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build install --record /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/install.log --single-version-externally-managed install_data
+[0.461s] running egg_info
+[0.461s] creating ../build/robotanik_controller/robotanik_controller.egg-info
+[0.461s] writing ../build/robotanik_controller/robotanik_controller.egg-info/PKG-INFO
+[0.462s] writing dependency_links to ../build/robotanik_controller/robotanik_controller.egg-info/dependency_links.txt
+[0.462s] writing entry points to ../build/robotanik_controller/robotanik_controller.egg-info/entry_points.txt
+[0.462s] writing requirements to ../build/robotanik_controller/robotanik_controller.egg-info/requires.txt
+[0.462s] writing top-level names to ../build/robotanik_controller/robotanik_controller.egg-info/top_level.txt
+[0.462s] writing manifest file '../build/robotanik_controller/robotanik_controller.egg-info/SOURCES.txt'
+[0.462s] reading manifest file '../build/robotanik_controller/robotanik_controller.egg-info/SOURCES.txt'
+[0.463s] writing manifest file '../build/robotanik_controller/robotanik_controller.egg-info/SOURCES.txt'
+[0.463s] running build
+[0.463s] running build_py
+[0.463s] creating /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build
+[0.463s] creating /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build/lib
+[0.463s] creating /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build/lib/robotanik_controller
+[0.463s] copying robotanik_controller/main.controller.py -> /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build/lib/robotanik_controller
+[0.463s] copying robotanik_controller/__init__.py -> /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build/lib/robotanik_controller
+[0.463s] running install
+[0.463s] running install_lib
+[0.464s] creating /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages/robotanik_controller
+[0.464s] copying /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build/lib/robotanik_controller/main.controller.py -> /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages/robotanik_controller
+[0.464s] copying /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build/lib/robotanik_controller/__init__.py -> /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages/robotanik_controller
+[0.465s] byte-compiling /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages/robotanik_controller/main.controller.py to main.controller.cpython-310.pyc
+[0.465s] byte-compiling /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages/robotanik_controller/__init__.py to __init__.cpython-310.pyc
+[0.465s] running install_data
+[0.465s] creating /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/ament_index
+[0.465s] creating /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/ament_index/resource_index
+[0.465s] creating /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/ament_index/resource_index/packages
+[0.465s] copying resource/robotanik_controller -> /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/ament_index/resource_index/packages
+[0.466s] copying package.xml -> /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/robotanik_controller
+[0.466s] creating /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/robotanik_controller/launch
+[0.466s] copying launch/main.launch.py -> /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/share/robotanik_controller/launch
+[0.466s] running install_egg_info
+[0.466s] Copying ../build/robotanik_controller/robotanik_controller.egg-info to /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages/robotanik_controller-0.0.0-py3.10.egg-info
+[0.467s] running install_scripts
+[0.479s] Installing main_controller script to /home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/robotanik_controller
+[0.479s] writing list of installed files to '/home/aziz/Desktop/ros2v2/src/build/robotanik_controller/install.log'
+[0.492s] Invoked command in '/home/aziz/Desktop/ros2v2/src/robotanik_controller' returned '0': PYTHONPATH=/home/aziz/Desktop/ros2v2/src/build/robotanik_controller/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/src/install/robotanik_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robotanik_controller build --build-base /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/build install --record /home/aziz/Desktop/ros2v2/src/build/robotanik_controller/install.log --single-version-externally-managed install_data
