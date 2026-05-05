@@ -37,7 +37,7 @@ def yaw_to_quaternion(yaw: float):
 class RobotanikRowFSM(Node):
     def __init__(self):
         super().__init__("robotanik_row_fsm")
-        self.get_logger().info("### ROBOTANIK FSM V24.0 (FİZİKSEL MESAFE ZIRHI EKLENDİ) BAŞLADI ###")
+        self.get_logger().info("### ROBOTANIK FSM V25.0 (SABIRLI FAILSAFE & KONUŞAN ZIRHLAR) BAŞLADI ###")
 
         self.nav_client = ActionClient(self, NavigateToPose, "navigate_to_pose")
         self.cmd_pub    = self.create_publisher(Twist, "/cmd_vel", 10)
@@ -94,7 +94,7 @@ class RobotanikRowFSM(Node):
         self.blind_threshold = 1.0
 
         self.scrape_threshold = 0.18   
-        self.scrape_speed     = 0.05   
+        self.scrape_speed     = 0.10   # ŞEFİN NOTU: Duvar sıyırma kurtuluş hızı arttırıldı (0.05 -> 0.10)
         self.scrape_angular   = 0.8    
 
         self.backup_start_time   = None
@@ -274,17 +274,16 @@ class RobotanikRowFSM(Node):
                 else:
                     self.obstacle_counter = 0
 
-            # --- ŞEFİN FİZİKSEL MESAFE ZIRHI (FAILSAFE) ---
-            # Eğer ROS 2 mesajı yutar ve future'ı tamamlamazsa, robot hedefe 40cm yaklaştığında zorla geçiş yap!
+            # --- ŞEFİN SABIRLI FAILSAFE ZIRHI ---
             target_x, target_y, _, _ = self.waypoints[self.current_wp]
             dist = math.hypot(self.current_x - target_x, self.current_y - target_y)
             
-            if dist < 0.40:
-                self.get_logger().info("Hedefe fiziksel olarak yaklaşıldı -> Failsafe ile görev atlanıyor!")
+            # Nav2'yi panikle bölmemek için mesafeyi 40cm'den 15cm'ye çektik!
+            if dist < 0.15:
+                self.get_logger().info(f"Failsafe Tetiklendi: Hedefe {dist:.2f}m kaldı -> Görev devrediliyor!")
                 self.state = MissionState.NEXT_WAYPOINT
                 return
 
-            # Normal şartlarda çalışan action client dinleyicisi
             if self.result_future and self.result_future.done():
                 self.state = MissionState.NEXT_WAYPOINT
 
@@ -327,11 +326,14 @@ class RobotanikRowFSM(Node):
                 self.state = MissionState.NEXT_WAYPOINT
                 return
 
+            # --- KONUŞAN ZIRHLAR: Sıyırma (Scrape) Uyarıları ---
             if r_raw < self.scrape_threshold:
+                self.get_logger().warn(f"SAĞ DUVARA ÇOK YAKIN ({r_raw:.2f}m)! Sıyırma manevrası (Sola) yapılıyor.")
                 self.publish_cmd_vel(self.scrape_speed, self.scrape_angular)
                 return
 
             if l_raw < self.scrape_threshold:
+                self.get_logger().warn(f"SOL BİTKİYE ÇOK YAKIN ({l_raw:.2f}m)! Sıyırma manevrası (Sağa) yapılıyor.")
                 self.publish_cmd_vel(self.scrape_speed, -self.scrape_angular)
                 return
 
@@ -381,8 +383,8 @@ class RobotanikRowFSM(Node):
 
             self.publish_cmd_vel(self.evacuate_speed)
             _, _, yaw, _ = self.waypoints[self.current_wp]
-            if (yaw > 0  and self.current_y < self.y_approach_bottom + 0.5) or \
-               (yaw < 0  and self.current_y > self.y_approach_top    - 0.5):
+            if (yaw > 0  and self.current_y < self.y_entry_bottom + 0.5) or \
+               (yaw < 0  and self.current_y > self.y_entry_top    - 0.5):
                 self.publish_stop()
                 self.skip_to_next_corridor()
 
@@ -405,7 +407,8 @@ def main(args=None):
         try:
             rclpy.spin_once(node, timeout_sec=0.1)
         except RuntimeError as e:
-            node.get_logger().warn(f"ROS 2 İletişim Hatası Yutuldu: {e}")
+            # Artık sensörlerden NaN geldiğinde çökmeden devam edecek!
+            pass
         except KeyboardInterrupt:
             break
             

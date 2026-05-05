@@ -1,0 +1,38 @@
+[0.007s] Invoking command in '/home/aziz/Desktop/ros2v2/build/robotanik_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aziz/Desktop/ros2v2/install/sensor_hcsr04:/home/aziz/Desktop/ros2v2/install/robotanik_vision:/home/aziz/Desktop/ros2v2/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/robotanik_vision:/home/aziz/Desktop/ros2_ws/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/my_py_pkg:/opt/ros/humble /usr/bin/cmake --build /home/aziz/Desktop/ros2v2/build/robotanik_sim -- -j16 -l16
+[0.039s] Invoked command in '/home/aziz/Desktop/ros2v2/build/robotanik_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aziz/Desktop/ros2v2/install/sensor_hcsr04:/home/aziz/Desktop/ros2v2/install/robotanik_vision:/home/aziz/Desktop/ros2v2/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/robotanik_vision:/home/aziz/Desktop/ros2_ws/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/my_py_pkg:/opt/ros/humble /usr/bin/cmake --build /home/aziz/Desktop/ros2v2/build/robotanik_sim -- -j16 -l16
+[0.047s] Invoking command in '/home/aziz/Desktop/ros2v2/build/robotanik_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aziz/Desktop/ros2v2/install/sensor_hcsr04:/home/aziz/Desktop/ros2v2/install/robotanik_vision:/home/aziz/Desktop/ros2v2/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/robotanik_vision:/home/aziz/Desktop/ros2_ws/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/my_py_pkg:/opt/ros/humble /usr/bin/cmake --install /home/aziz/Desktop/ros2v2/build/robotanik_sim
+[0.051s] -- Install configuration: ""
+[0.051s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/launch
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/launch/sim.launch.py
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/urdf
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/urdf/robotanik.urdf
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/worlds
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/worlds/world_uret.py
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/worlds/robotanik_sera.world
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/maps
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/maps/harita_uret.py
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/maps/sera_haritasi.yaml
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/maps/robotanik_sera.pgm
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/maps/robotanik_sera.yaml
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/params
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/params/nav2_params.yaml
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/config
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/config/ekf.yaml
+[0.052s] -- Installing: /home/aziz/Desktop/ros2v2/install/robotanik_sim/lib/robotanik_sim/row_fsm.py
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/lib/robotanik_sim/real_location_publisher.py
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/ament_index/resource_index/package_run_dependencies/robotanik_sim
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/ament_index/resource_index/parent_prefix_path/robotanik_sim
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/environment/ament_prefix_path.sh
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/environment/ament_prefix_path.dsv
+[0.052s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/environment/path.sh
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/environment/path.dsv
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/local_setup.bash
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/local_setup.sh
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/local_setup.zsh
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/local_setup.dsv
+[0.053s] -- Installing: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/package.dsv
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/ament_index/resource_index/packages/robotanik_sim
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/cmake/robotanik_simConfig.cmake
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/cmake/robotanik_simConfig-version.cmake
+[0.053s] -- Up-to-date: /home/aziz/Desktop/ros2v2/install/robotanik_sim/share/robotanik_sim/package.xml
+[0.054s] Invoked command in '/home/aziz/Desktop/ros2v2/build/robotanik_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/aziz/Desktop/ros2v2/install/sensor_hcsr04:/home/aziz/Desktop/ros2v2/install/robotanik_vision:/home/aziz/Desktop/ros2v2/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/robotanik_vision:/home/aziz/Desktop/ros2_ws/install/robotanik_control:/home/aziz/Desktop/ros2_ws/install/my_py_pkg:/opt/ros/humble /usr/bin/cmake --install /home/aziz/Desktop/ros2v2/build/robotanik_sim

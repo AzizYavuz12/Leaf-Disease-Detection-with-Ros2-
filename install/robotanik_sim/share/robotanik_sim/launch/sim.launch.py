@@ -48,7 +48,7 @@ def generate_launch_description():
                 '-entity', 'robotanik',
                 '-file', urdf_path,
                 '-x', '10.45',
-                '-y', '0.6',
+                '-y', '1.5',
                 '-z', '0.2275', # Şef Notu: URDF z yüksekliği ile eşitledim, havadan düşmesin
                 '-Y', '1.5708'
             ],
@@ -123,7 +123,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{'use_sim_time': True}]
         )]
-    )
+    )	
 
     return LaunchDescription([
         rsp_node,
@@ -133,5 +133,6 @@ def generate_launch_description():
         static_tf_node,
         rviz_node,
         nav2_node,         # Nav2/AMCL Aktif (Map->Odom)
+	location_pub_node, # SİMÜLASYON KONUM YAYINCISI EKLENDİ!
         row_fsm_node,
     ])
