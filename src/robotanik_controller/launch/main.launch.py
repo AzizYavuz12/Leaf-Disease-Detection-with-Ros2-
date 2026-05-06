@@ -44,8 +44,21 @@ def generate_launch_description():
         )]
     )
 
+    # 5. Canlı Heatmap (Isı Haritası) Düğümü
+    # Main Controller'dan 2 saniye sonra (toplam 10. saniyede) devreye girer
+    heatmap_node = TimerAction(
+        period=10.0,
+        actions=[Node(
+            package=controller_pkg_name,
+            executable='heatmap_node',
+            name='heatmap_node',
+            output='screen'
+        )]
+    )
+
     return LaunchDescription([
         sim_launch,
         vision_launch, # DÜZELTME 2: Değişken adını doğru yazdık
-        main_controller_node
+        main_controller_node,
+        heatmap_node   # YENİ EKLENEN KISIM
     ])

@@ -1,3 +1,4 @@
 [console_scripts]
+heatmap_node = robotanik_controller.heatmap_node:main
 main_controller = robotanik_controller.main_controller:main
 

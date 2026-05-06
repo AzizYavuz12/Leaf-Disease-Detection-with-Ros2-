@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 import os
-from glob import glob # BU SATIRI EKLE (Launch dosyalarını bulmak için)
+from glob import glob # Launch dosyalarını bulmak için
 
 package_name = 'robotanik_controller'
 
@@ -12,7 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        # 1. EKLENECEK KISIM: Launch dosyasının kurulum yolu
+        # Launch dosyasının kurulum yolu
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
@@ -24,8 +24,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # 2. EKLENECEK KISIM: Çalıştırılabilir düğümün tanımı
+            # Çalıştırılabilir düğümlerin tanımı
             'main_controller = robotanik_controller.main_controller:main',
+            'heatmap_node = robotanik_controller.heatmap_node:main', # YENİ EKLENEN CANLI HARİTA DÜĞÜMÜ
         ],
     },
 )

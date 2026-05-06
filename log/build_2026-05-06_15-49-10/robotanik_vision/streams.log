@@ -1,0 +1,22 @@
+[0.867s] Invoking command in '/home/aziz/Desktop/ros2v2/src/robotanik_vision': PYTHONPATH=/home/aziz/Desktop/ros2v2/build/robotanik_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robotanik_vision build --build-base /home/aziz/Desktop/ros2v2/build/robotanik_vision/build install --record /home/aziz/Desktop/ros2v2/build/robotanik_vision/install.log --single-version-externally-managed install_data
+[1.011s] running egg_info
+[1.011s] writing ../../build/robotanik_vision/robotanik_vision.egg-info/PKG-INFO
+[1.011s] writing dependency_links to ../../build/robotanik_vision/robotanik_vision.egg-info/dependency_links.txt
+[1.011s] writing entry points to ../../build/robotanik_vision/robotanik_vision.egg-info/entry_points.txt
+[1.011s] writing requirements to ../../build/robotanik_vision/robotanik_vision.egg-info/requires.txt
+[1.011s] writing top-level names to ../../build/robotanik_vision/robotanik_vision.egg-info/top_level.txt
+[1.013s] reading manifest file '../../build/robotanik_vision/robotanik_vision.egg-info/SOURCES.txt'
+[1.013s] writing manifest file '../../build/robotanik_vision/robotanik_vision.egg-info/SOURCES.txt'
+[1.013s] running build
+[1.013s] running build_py
+[1.014s] running install
+[1.014s] running install_lib
+[1.015s] running install_data
+[1.015s] running install_egg_info
+[1.016s] removing '/home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision-0.0.0-py3.10.egg-info' (and everything under it)
+[1.017s] Copying ../../build/robotanik_vision/robotanik_vision.egg-info to /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages/robotanik_vision-0.0.0-py3.10.egg-info
+[1.017s] running install_scripts
+[1.031s] Installing ai_analyzer script to /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/robotanik_vision
+[1.031s] Installing camera_node script to /home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/robotanik_vision
+[1.031s] writing list of installed files to '/home/aziz/Desktop/ros2v2/build/robotanik_vision/install.log'
+[1.058s] Invoked command in '/home/aziz/Desktop/ros2v2/src/robotanik_vision' returned '0': PYTHONPATH=/home/aziz/Desktop/ros2v2/build/robotanik_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/aziz/Desktop/ros2v2/install/robotanik_vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robotanik_vision build --build-base /home/aziz/Desktop/ros2v2/build/robotanik_vision/build install --record /home/aziz/Desktop/ros2v2/build/robotanik_vision/install.log --single-version-externally-managed install_data
